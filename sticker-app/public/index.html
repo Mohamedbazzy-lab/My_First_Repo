@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peelworks — Custom Sticker Printing</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a href="#" class="brand">
+      <span class="brand__mark" aria-hidden="true"></span>
+      Peelworks
+    </a>
+    <nav class="topnav">
+      <a href="#designer">Make a sticker</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#orders" id="navOrders" hidden>My orders</a>
+      <a href="#admin" id="navAdmin" hidden>Admin</a>
+    </nav>
+    <div class="topbar__auth">
+      <span id="whoami" class="whoami" hidden></span>
+      <button id="btnLogout" class="btn btn--ghost" hidden>Log out</button>
+      <button id="btnLogin" class="btn btn--ghost">Log in</button>
+      <button id="btnRegister" class="btn btn--primary">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero__inner">
+    <div class="hero__copy">
+      <h1>Turn your art into stickers people actually peel off and use.</h1>
+      <p>Upload a design, pick your shape and finish, and we'll print it. No minimums nightmare, no guesswork on price.</p>
+      <a href="#designer" class="btn btn--primary btn--lg">Start designing</a>
+    </div>
+    <div class="hero__sheet" aria-hidden="true">
+      <div class="sticker sticker--a">☀</div>
+      <div class="sticker sticker--b">✦</div>
+      <div class="sticker sticker--c">♥</div>
+      <div class="sticker sticker--d">✂</div>
+      <div class="cutline"></div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <section id="designer" class="panel">
+    <h2>Design your sticker</h2>
+    <p class="panel__hint">Sign in first — every order is tied to your account so you can track it.</p>
+
+    <div class="designer">
+      <div class="designer__upload">
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.webp,.svg" hidden>
+          <div id="dropzoneEmpty">
+            <strong>Drop your artwork here</strong>
+            <span>PNG, JPG, WEBP or SVG · up to 5MB</span>
+          </div>
+          <img id="previewImg" alt="Your uploaded design" hidden>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="isPublic">
+          Show this design in the public gallery
+        </label>
+        <button id="btnUpload" class="btn btn--secondary">Upload design</button>
+        <p id="uploadStatus" class="status"></p>
+      </div>
+
+      <form id="orderForm" class="designer__options">
+        <label>
+          Shape
+          <select name="shape" required>
+            <option value="die-cut">Die-cut (follows artwork)</option>
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+            <option value="rectangle">Rectangle</option>
+            <option value="oval">Oval</option>
+          </select>
+        </label>
+        <label>
+          Material
+          <select name="material" required>
+            <option value="vinyl">Vinyl (weatherproof)</option>
+            <option value="paper">Paper (matte, indoor)</option>
+            <option value="holographic">Holographic</option>
+            <option value="transparent">Transparent</option>
+            <option value="glitter">Glitter</option>
+          </select>
+        </label>
+        <label>
+          Size
+          <select name="size" required>
+            <option value="2x2">2" × 2"</option>
+            <option value="3x3">3" × 3"</option>
+            <option value="4x4">4" × 4"</option>
+            <option value="5x5">5" × 5"</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <label>
+          Finish
+          <select name="finish" required>
+            <option value="glossy">Glossy</option>
+            <option value="matte">Matte</option>
+          </select>
+        </label>
+        <label>
+          Quantity
+          <input type="number" name="quantity" min="10" max="10000" value="50" required>
+        </label>
+        <label class="full">
+          Shipping address
+          <textarea name="shippingAddress" rows="2" placeholder="Street, city, postal code, country" required></textarea>
+        </label>
+        <div class="full designer__submit">
+          <span id="priceHint" class="price-hint"></span>
+          <button type="submit" class="btn btn--primary">Place order</button>
+        </div>
+      </form>
+    </div>
+    <p id="orderStatus" class="status"></p>
+  </section>
+
+  <section id="gallery" class="panel">
+    <h2>From the community</h2>
+    <p class="panel__hint">Designs customers have chosen to share publicly.</p>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </section>
+
+  <section id="orders" class="panel" hidden>
+    <h2>My orders</h2>
+    <table class="table" id="ordersTable">
+      <thead>
+        <tr><th>Placed</th><th>Shape</th><th>Material</th><th>Size</th><th>Qty</th><th>Total</th><th>Status</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="admin" class="panel" hidden>
+    <h2>Admin — all orders</h2>
+    <table class="table" id="adminTable">
+      <thead>
+        <tr><th>Placed</th><th>Customer ID</th><th>Shape</th><th>Material</th><th>Qty</th><th>Total</th><th>Status</th><th>Update</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">Peelworks — demo application built as a pentest target. Not a real business.</div>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal__close" id="modalClose" aria-label="Close">×</button>
+    <h3 id="modalTitle">Log in</h3>
+    <form id="authForm">
+      <label class="full" id="nameField" hidden>
+        Name
+        <input type="text" name="name" autocomplete="name">
+      </label>
+      <label class="full">
+        Email
+        <input type="email" name="email" autocomplete="email" required>
+      </label>
+      <label class="full">
+        Password
+        <input type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="btn btn--primary full">Continue</button>
+      <p id="authStatus" class="status"></p>
+    </form>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
