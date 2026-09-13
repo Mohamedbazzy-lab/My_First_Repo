@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
@@ -10,6 +11,7 @@ const orderRoutes = require('./routes/orders');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(helmet());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
