@@ -1,0 +1,20 @@
+{
+  "name": "stickershop-pentest-target",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Custom sticker printing web application (pentest target)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cookie-parser": "^1.4.6",
+    "uuid": "^9.0.1",
+    "cors": "^2.8.5"
+  }
+}
